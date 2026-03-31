@@ -79,7 +79,7 @@ function Dashboard() {
             className="rounded-lg border border-slate-300 bg-white p-5 text-slate-900"
           >
             <p className="text-sm text-slate-500">{metric.label}</p>
-            <p className="mt-2 text-2xl font-semibold text-slate-900">{metric.value}</p>
+            <p className="mt-2 text-2xl font-semibold text-gray-300">{metric.value}</p>
           </article>
         ))}
       </section>

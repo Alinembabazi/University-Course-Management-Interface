@@ -8,22 +8,22 @@ function CourseCard({ course, onDelete }) {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-600">
             {course.code || 'Course'}
           </p>
-          <h3 className="mt-2 text-xl font-bold text-slate-900">
+          <h3 className="mt-2 text-xl font-bold text-gray-400">
             {course.title || 'Untitled course'}
           </h3>
         </div>
-        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+        <span className="rounded-full bg-green-300 px-3 py-1 text-xs font-semibold text-gray-400">
           {course.credits || 0} credits
         </span>
       </div>
 
-      <div className="mt-4 space-y-2 text-sm text-slate-600">
+      <div className="mt-4 space-y-2 text-sm text-gray-400">
         <p>Instructor: {course.instructor || 'Not assigned'}</p>
         <p>Semester: {course.semester || 'Not set'}</p>
         <p>Students: {course.studentsCount}</p>
       </div>
 
-      <p className="mt-4 text-sm leading-6 text-slate-500">
+      <p className="mt-4 text-sm leading-6 text-gray-400">
         {course.description || 'No course description is available yet.'}
       </p>
 
