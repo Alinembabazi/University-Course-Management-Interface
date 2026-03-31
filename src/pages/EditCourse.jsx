@@ -3,7 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import CourseForm from '../components/CourseForm'
 import Loader from '../components/Loader'
-import { getCourseById, updateCourse } from '../services/courseService'
+import {
+  getCourseById,
+  getLocalCourseById,
+  isLocalCourseId,
+  updateCourse,
+  updateLocalCourse,
+} from '../services/courseService'
 import {
   buildCoursePayload,
   getErrorMessage,
@@ -28,7 +34,9 @@ function EditCourse() {
       setLoading(true)
 
       try {
-        const payload = await getCourseById(id)
+        const payload = isLocalCourseId(id)
+          ? getLocalCourseById(id)
+          : await getCourseById(id)
         const course = normalizeCourse(payload?.course || payload?.data || payload)
         setFormData({
           title: course.title,
@@ -59,12 +67,18 @@ function EditCourse() {
     setIsSubmitting(true)
 
     try {
-      await updateCourse(id, buildCoursePayload(formData))
+      if (isLocalCourseId(id)) {
+        updateLocalCourse(id, buildCoursePayload(formData))
+      } else {
+        await updateCourse(id, buildCoursePayload(formData))
+      }
       toast.success('Course updated successfully.')
       navigate(`/courses/${id}`)
     } catch (updateError) {
       if (updateError?.response?.status === 401) {
-        toast.error(getUnauthorizedMessage())
+        updateLocalCourse(id, buildCoursePayload(formData))
+        toast.success('Course updated locally. Add an API token to sync with the backend.')
+        navigate(`/courses/${id}`)
       } else {
         toast.error(getErrorMessage(updateError, 'Unable to update course.'))
       }

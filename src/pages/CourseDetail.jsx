@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Loader from '../components/Loader'
-import { getCourseById } from '../services/courseService'
+import {
+  getCourseById,
+  getLocalCourseById,
+  isLocalCourseId,
+} from '../services/courseService'
 import {
   getErrorMessage,
   getUnauthorizedMessage,
@@ -20,7 +24,9 @@ function CourseDetail() {
       setError('')
 
       try {
-        const payload = await getCourseById(id)
+        const payload = isLocalCourseId(id)
+          ? getLocalCourseById(id)
+          : await getCourseById(id)
         setCourse(normalizeCourse(payload?.course || payload?.data || payload))
       } catch (fetchError) {
         if (fetchError?.response?.status === 401) {
@@ -49,7 +55,7 @@ function CourseDetail() {
   }
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-6">
+    <section className="rounded-lg border border-slate-300 bg-white p-6 text-slate-900">
       <h2 className="text-2xl font-semibold text-slate-900">{course?.title}</h2>
       <p className="mt-3 text-sm leading-7 text-slate-600">
         {course?.description || 'No course description is available.'}

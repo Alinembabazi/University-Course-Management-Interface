@@ -4,8 +4,8 @@ import ConfirmModal from '../components/ConfirmModal'
 import CourseTable from '../components/CourseTable'
 import Loader from '../components/Loader'
 import { useCourses } from '../hooks/useCourses'
-import { deleteCourse } from '../services/courseService'
-import { getErrorMessage, getUnauthorizedMessage } from '../utils/helpers'
+import { deleteCourse, deleteLocalCourse, isLocalCourseId } from '../services/courseService'
+import { getErrorMessage } from '../utils/helpers'
 
 function Courses() {
   const { courses, loading, error, refreshCourses } = useCourses()
@@ -32,16 +32,16 @@ function Courses() {
     setIsDeleting(true)
 
     try {
-      await deleteCourse(selectedCourse.id)
+      if (isLocalCourseId(selectedCourse.id)) {
+        deleteLocalCourse(selectedCourse.id)
+      } else {
+        await deleteCourse(selectedCourse.id)
+      }
       toast.success('Course deleted successfully.')
       setSelectedCourse(null)
       refreshCourses()
     } catch (deleteError) {
-      if (deleteError?.response?.status === 401) {
-        toast.error(getUnauthorizedMessage())
-      } else {
-        toast.error(getErrorMessage(deleteError, 'Unable to delete course.'))
-      }
+      toast.error(getErrorMessage(deleteError, 'Unable to delete course.'))
     } finally {
       setIsDeleting(false)
     }
@@ -53,7 +53,7 @@ function Courses() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-lg border border-slate-200 bg-white p-6">
+      <section className="rounded-lg border border-slate-300 bg-white p-6 text-slate-900">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h2 className="text-xl font-semibold text-slate-900">All courses</h2>

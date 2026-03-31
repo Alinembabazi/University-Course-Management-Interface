@@ -3,12 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import CourseForm from '../components/CourseForm'
 import { useAuth } from '../hooks/useAuth'
-import { createCourse } from '../services/courseService'
+import { createCourse, createLocalCourse } from '../services/courseService'
 import {
   buildCoursePayload,
   getCourseId,
   getErrorMessage,
-  getUnauthorizedMessage,
 } from '../utils/helpers'
 
 const initialValues = {
@@ -44,7 +43,9 @@ function CreateCourse() {
       navigate(createdCourseId ? `/courses/${createdCourseId}` : '/courses')
     } catch (createError) {
       if (createError?.response?.status === 401) {
-        toast.error(getUnauthorizedMessage())
+        const localCourse = createLocalCourse(buildCoursePayload(formData))
+        toast.success('Course saved locally. Add an API token to sync with the backend.')
+        navigate(`/courses/${getCourseId(localCourse)}`)
       } else {
         toast.error(getErrorMessage(createError, 'Unable to create course.'))
       }

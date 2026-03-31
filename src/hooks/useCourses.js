@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getCourses } from '../services/courseService'
+import { getCourses, getLocalCourses } from '../services/courseService'
 import {
   getErrorMessage,
   getUnauthorizedMessage,
@@ -33,8 +33,13 @@ export function useCourses() {
 
     try {
       const payload = await getCourses()
-      setCourses(resolveCourseList(payload).map(normalizeCourse))
+      setCourses([
+        ...getLocalCourses().map(normalizeCourse),
+        ...resolveCourseList(payload).map(normalizeCourse),
+      ])
     } catch (fetchError) {
+      setCourses(getLocalCourses().map(normalizeCourse))
+
       if (fetchError?.response?.status === 401) {
         setError(getUnauthorizedMessage())
       } else {
