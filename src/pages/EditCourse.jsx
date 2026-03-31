@@ -94,8 +94,8 @@ function EditCourse() {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-2xl font-semibold text-slate-900">Edit course</h2>
-        <p className="mt-1 text-sm text-slate-600">
+        <h2 className="text-2xl font-semibold text-gray-300">Edit course</h2>
+        <p className="mt-1 text-sm text-gray-600">
           Update only the course name and description.
         </p>
       </div>

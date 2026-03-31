@@ -1,7 +1,29 @@
 import api from './api'
-import { COURSE_ENDPOINT } from '../utils/constants'
+import {
+  COURSE_ENDPOINT,
+  FALLBACK_COURSE_ENDPOINT,
+} from '../utils/constants'
 
 const LOCAL_COURSES_KEY = 'course-management-local-courses'
+const COURSE_ENDPOINTS = [COURSE_ENDPOINT, FALLBACK_COURSE_ENDPOINT]
+
+async function requestCourseApi(execute) {
+  let lastError
+
+  for (const endpoint of COURSE_ENDPOINTS) {
+    try {
+      return await execute(endpoint)
+    } catch (error) {
+      lastError = error
+
+      if (error?.response?.status !== 404) {
+        throw error
+      }
+    }
+  }
+
+  throw lastError
+}
 
 function readLocalCourses() {
   const rawCourses = localStorage.getItem(LOCAL_COURSES_KEY)
@@ -72,26 +94,26 @@ export function deleteLocalCourse(id) {
 // GET  https://student-management-system-backend.up.railway.app/api/courses/:id
 
 export async function getCourses() {
-  const response = await api.get(COURSE_ENDPOINT)
+  const response = await requestCourseApi((endpoint) => api.get(endpoint))
   return response.data
 }
 
 export async function getCourseById(id) {
-  const response = await api.get(`${COURSE_ENDPOINT}/${id}`)
+  const response = await requestCourseApi((endpoint) => api.get(`${endpoint}/${id}`))
   return response.data
 }
 
 export async function createCourse(payload) {
-  const response = await api.post(COURSE_ENDPOINT, payload)
+  const response = await requestCourseApi((endpoint) => api.post(endpoint, payload))
   return response.data
 }
 
 export async function updateCourse(id, payload) {
-  const response = await api.put(`${COURSE_ENDPOINT}/${id}`, payload)
+  const response = await requestCourseApi((endpoint) => api.put(`${endpoint}/${id}`, payload))
   return response.data
 }
 
 export async function deleteCourse(id) {
-  const response = await api.delete(`${COURSE_ENDPOINT}/${id}`)
+  const response = await requestCourseApi((endpoint) => api.delete(`${endpoint}/${id}`))
   return response.data
 }

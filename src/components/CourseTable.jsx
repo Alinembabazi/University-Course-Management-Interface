@@ -21,7 +21,7 @@ function CourseTable({ courses, onDelete }) {
           </thead>
           <tbody className="divide-y divide-slate-100">
             {courses.map((course) => (
-              <tr key={course.id} className="text-sm text-gray-700">
+              <tr key={course.id} className="text-sm text-gray-300">
                 <td className="px-4 py-4 font-semibold">{course.code || '--'}</td>
                 <td className="px-4 py-4">{course.title || '--'}</td>
                 <td className="px-4 py-4">{course.instructor || '--'}</td>
@@ -37,7 +37,7 @@ function CourseTable({ courses, onDelete }) {
                     </Link>
                     <Link
                       to={`/courses/${course.id}/edit`}
-                      className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-medium text-gray-700"
+                      className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-medium text-gray-300"
                     >
                       Edit
                     </Link>
