@@ -16,7 +16,7 @@ function Navbar() {
       <div className="flex items-center gap-3">
         <Link
           to="/courses/create"
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+          className="rounded-md bg-gray-300 px-4 py-2 text-sm font-medium text-white hover:bg-gray-400"
         >
           Add course
         </Link>

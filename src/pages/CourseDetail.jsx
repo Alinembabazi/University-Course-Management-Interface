@@ -57,13 +57,13 @@ function CourseDetail() {
   return (
     <section className="rounded-lg border border-slate-300 bg-white p-6 text-slate-900">
       <h2 className="text-2xl font-semibold text-slate-900">{course?.title}</h2>
-      <p className="mt-3 text-sm leading-7 text-slate-600">
+      <p className="mt-3 text-sm leading-7 text-gray-300">
         {course?.description || 'No course description is available.'}
       </p>
 
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         <div className="rounded-md bg-slate-50 p-4">
-          <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Code</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-gray-300">Code</p>
           <p className="mt-2 text-lg font-semibold text-slate-900">{course?.code}</p>
         </div>
         <div className="rounded-md bg-slate-50 p-4">

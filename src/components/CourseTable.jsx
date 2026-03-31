@@ -31,13 +31,13 @@ function CourseTable({ courses, onDelete }) {
                   <div className="flex flex-wrap gap-2">
                     <Link
                       to={`/courses/${course.id}`}
-                      className="rounded-xl bg-slate-900 px-3 py-2 text-xs font-medium text-white"
+                      className="rounded-xl bg-gray-300 px-3 py-2 text-xs font-medium text-white"
                     >
                       View
                     </Link>
                     <Link
                       to={`/courses/${course.id}/edit`}
-                      className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700"
+                      className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-medium text-gray-700"
                     >
                       Edit
                     </Link>

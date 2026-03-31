@@ -18,13 +18,13 @@ function ConfirmModal({
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-rose-500">
           Please confirm
         </p>
-        <h3 className="mt-2 text-2xl font-bold text-slate-900">{title}</h3>
-        <p className="mt-3 text-sm leading-6 text-slate-600">{message}</p>
+        <h3 className="mt-2 text-2xl font-bold text-gray-900">{title}</h3>
+        <p className="mt-3 text-sm leading-6 text-gray-600">{message}</p>
         <div className="mt-6 flex gap-3">
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 rounded-2xl border border-slate-200 px-4 py-3 font-medium text-slate-700 transition hover:bg-slate-50"
+            className="flex-1 rounded-2xl border border-gray-200 px-4 py-3 font-medium text-slate-700 transition hover:bg-gray-50"
           >
             {cancelLabel}
           </button>
