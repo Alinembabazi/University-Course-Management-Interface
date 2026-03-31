@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import {
   getStoredUser,
@@ -6,17 +6,11 @@ import {
   logoutSupervisor,
 } from '../services/authService'
 import { getErrorMessage } from '../utils/helpers'
-
-export const AuthContext = createContext(null)
+import { AuthContext } from './auth-context'
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    setUser(getStoredUser())
-    setLoading(false)
-  }, [])
+  const [user, setUser] = useState(() => getStoredUser())
+  const loading = false
 
   async function login(credentials) {
     try {
