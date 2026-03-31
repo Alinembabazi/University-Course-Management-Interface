@@ -13,10 +13,6 @@ import {
 
 const initialValues = {
   title: '',
-  code: '',
-  instructor: '',
-  credits: '',
-  semester: '',
   description: '',
 }
 
@@ -36,10 +32,6 @@ function EditCourse() {
         const course = normalizeCourse(payload?.course || payload?.data || payload)
         setFormData({
           title: course.title,
-          code: course.code,
-          instructor: course.instructor,
-          credits: course.credits,
-          semester: course.semester,
           description: course.description,
         })
       } catch (fetchError) {
@@ -88,10 +80,10 @@ function EditCourse() {
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-600">
-          Edit
+        <h2 className="text-2xl font-semibold text-slate-900">Edit course</h2>
+        <p className="mt-1 text-sm text-slate-600">
+          Update only the course name and description.
         </p>
-        <h2 className="mt-2 text-2xl font-bold text-slate-900">Update course</h2>
       </div>
 
       <CourseForm

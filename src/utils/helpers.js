@@ -20,13 +20,15 @@ export function normalizeCourse(course = {}) {
 }
 
 export function buildCoursePayload(values) {
+  const trimmedTitle = values.title.trim()
+  const trimmedDescription = values.description.trim()
   const normalized = {
-    title: values.title.trim(),
-    code: values.code.trim(),
-    instructor: values.instructor.trim(),
-    credits: Number(values.credits) || 0,
-    semester: values.semester.trim(),
-    description: values.description.trim(),
+    title: trimmedTitle,
+    code: values.code?.trim() || trimmedTitle.slice(0, 3).toUpperCase() || 'CRS',
+    instructor: values.instructor?.trim() || 'TBA',
+    credits: Number(values.credits) || 3,
+    semester: values.semester?.trim() || 'TBA',
+    description: trimmedDescription,
   }
 
   return {

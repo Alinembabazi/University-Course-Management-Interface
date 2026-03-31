@@ -4,7 +4,7 @@ export const TEST_SUPERVISOR = {
   name: 'Department Supervisor',
 }
 
-export const API_BASE_URL = 'https://student-management-system-backend.up.railway.app'
+export const API_BASE_URL = 'https://student-management-system-backend.up.railway.app/api/courses'
 
 export const COURSE_ENDPOINT = '/api/courses'
 

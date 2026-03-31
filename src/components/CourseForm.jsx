@@ -10,9 +10,9 @@ function CourseForm({
 }) {
   return (
     <form onSubmit={onSubmit} className="rounded-lg border border-slate-200 bg-white p-6">
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="space-y-4">
         <label className="block text-sm font-medium text-slate-700">
-          Course title
+          Course name
           <input
             required
             name="title"
@@ -24,56 +24,6 @@ function CourseForm({
         </label>
 
         <label className="block text-sm font-medium text-slate-700">
-          Course code
-          <input
-            required
-            name="code"
-            value={values.code}
-            onChange={onChange}
-            className={inputStyles}
-            placeholder="CSC 401"
-          />
-        </label>
-
-        <label className="block text-sm font-medium text-slate-700">
-          Instructor
-          <input
-            required
-            name="instructor"
-            value={values.instructor}
-            onChange={onChange}
-            className={inputStyles}
-            placeholder="Dr. Ada Lovelace"
-          />
-        </label>
-
-        <label className="block text-sm font-medium text-slate-700">
-          Credits
-          <input
-            required
-            min="1"
-            type="number"
-            name="credits"
-            value={values.credits}
-            onChange={onChange}
-            className={inputStyles}
-            placeholder="3"
-          />
-        </label>
-
-        <label className="block text-sm font-medium text-slate-700 md:col-span-2">
-          Semester
-          <input
-            required
-            name="semester"
-            value={values.semester}
-            onChange={onChange}
-            className={inputStyles}
-            placeholder="First Semester 2026"
-          />
-        </label>
-
-        <label className="block text-sm font-medium text-slate-700 md:col-span-2">
           Description
           <textarea
             required

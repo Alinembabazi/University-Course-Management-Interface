@@ -13,10 +13,6 @@ import {
 
 const initialValues = {
   title: '',
-  code: '',
-  instructor: '',
-  credits: '',
-  semester: '',
   description: '',
 }
 
@@ -62,7 +58,7 @@ function CreateCourse() {
       <div>
         <h2 className="text-2xl font-semibold text-slate-900">Create course</h2>
         <p className="mt-1 text-sm text-slate-600">
-          Fill in the course details and save them to the backend.
+          Add only the course name and description.
         </p>
       </div>
 
