@@ -4,12 +4,12 @@ import Sidebar from './Sidebar'
 
 function DashboardLayout() {
   return (
-    <div className="min-h-screen bg-transparent px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-6 xl:grid-cols-[280px_1fr]">
+    <div className="min-h-screen bg-slate-50">
+      <div className="grid min-h-screen md:grid-cols-[220px_1fr]">
         <Sidebar />
-        <div className="space-y-6">
+        <div>
           <Navbar />
-          <main>
+          <main className="p-4 sm:p-6">
             <Outlet />
           </main>
         </div>

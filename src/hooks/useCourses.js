@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { getCourses } from '../services/courseService'
-import { getErrorMessage, normalizeCourse } from '../utils/helpers'
+import {
+  getErrorMessage,
+  getUnauthorizedMessage,
+  normalizeCourse,
+} from '../utils/helpers'
 
 function resolveCourseList(payload) {
   if (Array.isArray(payload)) {
@@ -31,7 +35,11 @@ export function useCourses() {
       const payload = await getCourses()
       setCourses(resolveCourseList(payload).map(normalizeCourse))
     } catch (fetchError) {
-      setError(getErrorMessage(fetchError, 'Unable to load courses.'))
+      if (fetchError?.response?.status === 401) {
+        setError(getUnauthorizedMessage())
+      } else {
+        setError(getErrorMessage(fetchError, 'Unable to load courses.'))
+      }
     } finally {
       setLoading(false)
     }

@@ -1,5 +1,5 @@
 const inputStyles =
-  'mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100'
+  'mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-slate-500'
 
 function CourseForm({
   values,
@@ -9,11 +9,8 @@ function CourseForm({
   submitLabel,
 }) {
   return (
-    <form
-      onSubmit={onSubmit}
-      className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
-    >
-      <div className="grid gap-5 md:grid-cols-2">
+    <form onSubmit={onSubmit} className="rounded-lg border border-slate-200 bg-white p-6">
+      <div className="grid gap-4 md:grid-cols-2">
         <label className="block text-sm font-medium text-slate-700">
           Course title
           <input
@@ -93,7 +90,7 @@ function CourseForm({
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-6 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
+        className="mt-6 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-70"
       >
         {isSubmitting ? 'Saving...' : submitLabel}
       </button>

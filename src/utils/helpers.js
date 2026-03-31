@@ -20,13 +20,24 @@ export function normalizeCourse(course = {}) {
 }
 
 export function buildCoursePayload(values) {
-  return {
+  const normalized = {
     title: values.title.trim(),
     code: values.code.trim(),
     instructor: values.instructor.trim(),
     credits: Number(values.credits) || 0,
     semester: values.semester.trim(),
     description: values.description.trim(),
+  }
+
+  return {
+    ...normalized,
+    courseName: normalized.title,
+    name: normalized.title,
+    courseCode: normalized.code,
+    lecturer: normalized.instructor,
+    creditHours: normalized.credits,
+    term: normalized.semester,
+    summary: normalized.description,
   }
 }
 
@@ -37,4 +48,8 @@ export function getErrorMessage(error, fallback = 'Something went wrong.') {
     error?.message ||
     fallback
   )
+}
+
+export function getUnauthorizedMessage() {
+  return 'This backend requires an API token. Add it during login so course requests can succeed.'
 }

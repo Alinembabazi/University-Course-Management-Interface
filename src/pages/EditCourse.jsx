@@ -7,6 +7,7 @@ import { getCourseById, updateCourse } from '../services/courseService'
 import {
   buildCoursePayload,
   getErrorMessage,
+  getUnauthorizedMessage,
   normalizeCourse,
 } from '../utils/helpers'
 
@@ -42,7 +43,11 @@ function EditCourse() {
           description: course.description,
         })
       } catch (fetchError) {
-        toast.error(getErrorMessage(fetchError, 'Unable to load course.'))
+        if (fetchError?.response?.status === 401) {
+          toast.error(getUnauthorizedMessage())
+        } else {
+          toast.error(getErrorMessage(fetchError, 'Unable to load course.'))
+        }
         navigate('/courses')
       } finally {
         setLoading(false)
@@ -66,7 +71,11 @@ function EditCourse() {
       toast.success('Course updated successfully.')
       navigate(`/courses/${id}`)
     } catch (updateError) {
-      toast.error(getErrorMessage(updateError, 'Unable to update course.'))
+      if (updateError?.response?.status === 401) {
+        toast.error(getUnauthorizedMessage())
+      } else {
+        toast.error(getErrorMessage(updateError, 'Unable to update course.'))
+      }
     } finally {
       setIsSubmitting(false)
     }

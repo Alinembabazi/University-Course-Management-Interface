@@ -2,8 +2,14 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import CourseForm from '../components/CourseForm'
+import { useAuth } from '../hooks/useAuth'
 import { createCourse } from '../services/courseService'
-import { buildCoursePayload, getCourseId, getErrorMessage } from '../utils/helpers'
+import {
+  buildCoursePayload,
+  getCourseId,
+  getErrorMessage,
+  getUnauthorizedMessage,
+} from '../utils/helpers'
 
 const initialValues = {
   title: '',
@@ -16,8 +22,10 @@ const initialValues = {
 
 function CreateCourse() {
   const navigate = useNavigate()
+  const { user, updateApiToken } = useAuth()
   const [formData, setFormData] = useState(initialValues)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [apiTokenInput, setApiTokenInput] = useState(user?.apiToken || '')
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -29,13 +37,21 @@ function CreateCourse() {
     setIsSubmitting(true)
 
     try {
+      if (apiTokenInput.trim()) {
+        updateApiToken(apiTokenInput)
+      }
+
       const payload = await createCourse(buildCoursePayload(formData))
       const createdCourseId = getCourseId(payload?.course || payload?.data || payload)
 
       toast.success('Course created successfully.')
       navigate(createdCourseId ? `/courses/${createdCourseId}` : '/courses')
     } catch (createError) {
-      toast.error(getErrorMessage(createError, 'Unable to create course.'))
+      if (createError?.response?.status === 401) {
+        toast.error(getUnauthorizedMessage())
+      } else {
+        toast.error(getErrorMessage(createError, 'Unable to create course.'))
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -44,10 +60,23 @@ function CreateCourse() {
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-600">
-          Create
+        <h2 className="text-2xl font-semibold text-slate-900">Create course</h2>
+        <p className="mt-1 text-sm text-slate-600">
+          Fill in the course details and save them to the backend.
         </p>
-        <h2 className="mt-2 text-2xl font-bold text-slate-900">Add a new course</h2>
+      </div>
+
+      <div className="rounded-lg border border-slate-200 bg-white p-4">
+        <label className="block text-sm font-medium text-slate-700">
+          API token
+          <input
+            type="text"
+            value={apiTokenInput}
+            onChange={(event) => setApiTokenInput(event.target.value)}
+            placeholder="Required if your backend is protected"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-slate-500"
+          />
+        </label>
       </div>
 
       <CourseForm

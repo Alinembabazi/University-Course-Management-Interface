@@ -5,7 +5,7 @@ import CourseTable from '../components/CourseTable'
 import Loader from '../components/Loader'
 import { useCourses } from '../hooks/useCourses'
 import { deleteCourse } from '../services/courseService'
-import { getErrorMessage } from '../utils/helpers'
+import { getErrorMessage, getUnauthorizedMessage } from '../utils/helpers'
 
 function Courses() {
   const { courses, loading, error, refreshCourses } = useCourses()
@@ -37,7 +37,11 @@ function Courses() {
       setSelectedCourse(null)
       refreshCourses()
     } catch (deleteError) {
-      toast.error(getErrorMessage(deleteError, 'Unable to delete course.'))
+      if (deleteError?.response?.status === 401) {
+        toast.error(getUnauthorizedMessage())
+      } else {
+        toast.error(getErrorMessage(deleteError, 'Unable to delete course.'))
+      }
     } finally {
       setIsDeleting(false)
     }
@@ -49,15 +53,11 @@ function Courses() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-lg border border-slate-200 bg-white p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-600">
-              Course Directory
-            </p>
-            <h2 className="mt-2 text-2xl font-bold text-slate-900">
-              Browse and manage all courses
-            </h2>
+            <h2 className="text-xl font-semibold text-slate-900">All courses</h2>
+            <p className="mt-1 text-sm text-slate-600">Search, open, edit, or delete courses.</p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -65,12 +65,12 @@ function Courses() {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search by title, code, instructor..."
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 sm:w-80"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-slate-500 sm:w-80"
             />
             <button
               type="button"
               onClick={refreshCourses}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+              className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
               Refresh
             </button>

@@ -1,15 +1,28 @@
 import { useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import {
+  getApiToken,
   getStoredUser,
   loginSupervisor,
   logoutSupervisor,
+  setApiToken,
 } from '../services/authService'
 import { getErrorMessage } from '../utils/helpers'
 import { AuthContext } from './auth-context'
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => getStoredUser())
+  const [user, setUser] = useState(() => {
+    const storedUser = getStoredUser()
+
+    if (!storedUser) {
+      return null
+    }
+
+    return {
+      ...storedUser,
+      apiToken: storedUser.apiToken || getApiToken(),
+    }
+  })
   const loading = false
 
   async function login(credentials) {
@@ -31,6 +44,18 @@ export function AuthProvider({ children }) {
     toast.success('You have been logged out.')
   }
 
+  function updateApiToken(token) {
+    const storedToken = setApiToken(token)
+    setUser((current) =>
+      current
+        ? {
+            ...current,
+            apiToken: storedToken,
+          }
+        : current,
+    )
+  }
+
   const value = useMemo(
     () => ({
       user,
@@ -38,6 +63,7 @@ export function AuthProvider({ children }) {
       isAuthenticated: Boolean(user),
       login,
       logout,
+      updateApiToken,
     }),
     [loading, user],
   )
